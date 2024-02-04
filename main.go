@@ -17,11 +17,13 @@ func main() {
 	for {
 		fmt.Println("１から１００までの数字を入力してください")
 		fmt.Scanln(&inputNumber)
-		inputTimes += 1
-		if inputNumber < 1 || 100 < inputNumber {
+		if 0 <= inputNumber && inputNumber <= 100 {
+      inputTimes += 1
+		} else {
 			fmt.Println("無効な数字です。１から１００までの数字を入力してください")
-		}
-		fmt.Printf("debug: answer=%d, input=%d", answer, inputNumber)
+    }
+
+		fmt.Printf("debug: answer=%d, input=%d\n", answer, inputNumber)
 
 		for {
 
