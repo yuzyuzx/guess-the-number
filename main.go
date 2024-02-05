@@ -14,8 +14,9 @@ import (
 func main() {
 	printGameStartPrompt()
 	answer := generateAnswer()
+	answerCount := 1
 
-	for answerCount := 1; ; answerCount++ {
+	for {
 
 		userAnswer, err := readUserAnswer()
 		if err != nil {
@@ -23,8 +24,19 @@ func main() {
 			continue
 		}
 
-		if checkAnswer(answer, userAnswer, answerCount) {
+		result := checkAnswer(answer, userAnswer)
+		if result == 1 {
+			fmt.Println("残念！もっと小さい数字です。もう一度トライしてみてください。")
+			continue
+
+		} else if result == 2 {
+			fmt.Println("残念！もっと大きい数字です。もう一度トライしてみてください。")
+			continue
+
+		} else {
+			fmt.Printf("おめでとうございます！%d回目で正解しました。\n", answerCount)
 			break
+
 		}
 	}
 }
@@ -50,7 +62,6 @@ func generateAnswer() int {
 
 /*
 *
-
 標準入力からユーザーが入力した値を読み込む
 */
 func readUserAnswer() (int, error) {
@@ -71,16 +82,13 @@ func readUserAnswer() (int, error) {
 /**
 * 答え合わせ
  */
-func checkAnswer(answer, userAnswer, answerCount int) bool {
+func checkAnswer(answer, userAnswer int) int {
 	switch {
 	case answer < userAnswer:
-		fmt.Println("残念！もっと小さい数字です。もう一度トライしてみてください。")
-		return false
+		return 1
 	case userAnswer < answer:
-		fmt.Println("残念！もっと大きい数字です。もう一度トライしてみてください。")
-		return false
+		return 2
 	default:
-		fmt.Printf("おめでとうございます！%d回目で正解しました。\n", answerCount)
-		return true
+		return 3
 	}
 }
