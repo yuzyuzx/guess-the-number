@@ -14,7 +14,7 @@ import (
 func main() {
 	printGameStartPrompt()
 	answer := generateAnswer()
-	answerCount := 1
+	answerCount := 0
 
 	for {
 
@@ -23,6 +23,8 @@ func main() {
 			fmt.Println(err)
 			continue
 		}
+
+    answerCount += 1
 
 		result := checkAnswer(answer, userAnswer)
 		if result == 1 {
@@ -35,7 +37,12 @@ func main() {
 
 		} else {
 			fmt.Printf("おめでとうございます！%d回目で正解しました。\n", answerCount)
-			break
+			if isRestart() {
+        answerCount = 0
+        answer = generateAnswer()
+      } else {
+        break
+      }
 
 		}
 	}
@@ -91,4 +98,30 @@ func checkAnswer(answer, userAnswer int) int {
 	default:
 		return 3
 	}
+}
+
+/**
+* 再スタート
+ */
+func isRestart() bool {
+	fmt.Println("もう一度ゲームをしますか？")
+	fmt.Println("y:もう一度する, n:終わる")
+  scanner := bufio.NewScanner(os.Stdin)
+	if !scanner.Scan() {
+	}
+
+	text := strings.TrimSpace(scanner.Text())
+  fmt.Println(text)
+
+  if(text == "y") {
+    fmt.Println("もう一度開始")
+    return true
+  } 
+
+  fmt.Println("終了します")
+  return false
+}
+
+func restart() {
+
 }
