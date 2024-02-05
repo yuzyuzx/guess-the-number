@@ -1,14 +1,15 @@
 package main
 
 import (
-  "fmt"
-  "math/rand"
-  "time"
+	"fmt"
+	"math/rand"
+	"strconv"
+	"time"
 )
 
 func main() {
   var isGameEnd = false
-  var inputNumber int
+  var inputNumber string
   inputTimes := 0
 
   rand.NewSource(time.Now().UnixNano())
@@ -21,23 +22,27 @@ func main() {
   fmt.Println("１から１００までの数字を入力してください")
 
   for {
-    _, err := fmt.Scanf("%d", &inputNumber)
+    fmt.Scanf("%s", &inputNumber)
+    num, err := strconv.Atoi(inputNumber)
     if err != nil {
-      fmt.Println("不正な入力です\n")
+      fmt.Println(err)
+      fmt.Println("入力が正しくありません")
       continue
     }
 
-    if 0 <= inputNumber && inputNumber <= 100 {
+
+
+    if 0 <= num && num <= 100 {
       inputTimes += 1
     }
 
     switch {
-    case answer == inputNumber:
+    case answer == num:
       fmt.Printf("正解です！！！%d回目で正解しました\n", inputTimes)
       isGameEnd = true
-    case answer < inputNumber:
+    case answer < num:
       fmt.Println("もっと小さい数字です")
-    case inputNumber < answer:
+    case num < answer:
       fmt.Println("もっと大きい数字です")
     default:
       fmt.Println("無効な数字です。１から１００までの数字を入力してください")
