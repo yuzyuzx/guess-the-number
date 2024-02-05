@@ -15,8 +15,7 @@ func main() {
 	printGameStartPrompt()
 	answer := generateAnswer()
 
-game:
-	for answerCount := 0; ; answerCount++ {
+	for answerCount := 1; ; answerCount++ {
 
 		userAnswer, err := readUserAnswer()
 		if err != nil {
@@ -25,7 +24,7 @@ game:
 		}
 
 		if checkAnswer(answer, userAnswer, answerCount) {
-			break game
+			break
 		}
 	}
 }
