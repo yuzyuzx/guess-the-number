@@ -46,9 +46,5 @@ func main() {
     if isGameEnd {
       break
     }
-
-    if isGameEnd {
-      break
-    }
   }
 }
