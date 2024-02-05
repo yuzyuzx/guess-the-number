@@ -1,13 +1,13 @@
 package main
 
 import (
-	"bufio"
-	"fmt"
-	"math/rand"
-	"os"
-	"strconv"
-	"strings"
-	"time"
+  "bufio"
+  "fmt"
+  "math/rand"
+  "os"
+  "strconv"
+  "strings"
+  "time"
 )
 
 func main() {
@@ -25,7 +25,7 @@ func main() {
   for {
     scanner := bufio.NewScanner(os.Stdin)
 
-    if(!scanner.Scan()) {
+    if !scanner.Scan() {
       fmt.Println("読み込みに失敗しました")
       continue
     }
