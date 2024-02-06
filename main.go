@@ -11,6 +11,11 @@ import (
 	"time"
 )
 
+type AnswerResult struct {
+  NumberResult int
+  Message string
+}
+
 func main() {
 	printGameStartPrompt()
 	answer := generateAnswer()
@@ -26,25 +31,13 @@ func main() {
 
     answerCount += 1
 
-		result := checkAnswer(answer, userAnswer)
-		if result == 1 {
-			fmt.Println("残念！もっと小さい数字です。もう一度トライしてみてください。")
-			continue
-
-		} else if result == 2 {
-			fmt.Println("残念！もっと大きい数字です。もう一度トライしてみてください。")
-			continue
-
-		} else {
-			fmt.Printf("おめでとうございます！%d回目で正解しました。\n", answerCount)
-			if isRestart() {
-        answerCount = 0
-        answer = generateAnswer()
-      } else {
-        break
-      }
-
-		}
+		result := checkAnswer(answer, userAnswer, answerCount)
+    fmt.Println(result.Message)
+    if result.NumberResult == 3 {
+      answerCount = 0
+      answer = generateAnswer()
+      break
+    }
 	}
 }
 
@@ -89,15 +82,25 @@ func readUserAnswer() (int, error) {
 /**
 * 答え合わせ
  */
-func checkAnswer(answer, userAnswer int) int {
+func checkAnswer(answer, userAnswer, answerCount int) AnswerResult {
+  result := AnswerResult{}
+
 	switch {
 	case answer < userAnswer:
-		return 1
+    result.NumberResult = 1;
+    result.Message = "残念！もっと小さい数字です。もう一度トライしてみてください。"
 	case userAnswer < answer:
-		return 2
+    result.NumberResult = 2;
+    result.Message = "残念！もっと大きい数字です。もう一度トライしてみてください。"
 	default:
-		return 3
+    result.NumberResult= 3;
+    result.Message = fmt.Sprintf(
+      "おめでとうございます！%d回目で正解しました。\n",
+      answerCount,
+    )
 	}
+
+  return result
 }
 
 /**
