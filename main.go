@@ -42,9 +42,12 @@ func main() {
 		result := checkAnswer(answer, userAnswer, answerCount)
 		fmt.Println(result.Message)
 		if result.NumberResult == isCorrect {
-			answerCount = 0
-			answer = generateAnswer()
-			break
+			if isRestart() {
+				answerCount = 0
+				answer = generateAnswer()
+			} else {
+				break
+			}
 		}
 	}
 }
@@ -55,6 +58,10 @@ func promptMessage() map[string]string {
 	msg["1001"] = "数当てゲームをしましょう。"
 	msg["1002"] = "正解は１から１００までのランダムな数字です。"
 	msg["1003"] = "数字（半角）を入力してください。"
+	msg["1004"] = "もう一度ゲームをプレイしますか？"
+	msg["1005"] = "y:もう一度プレイする n:ゲームを終了する"
+	msg["1006"] = "もう一度ゲームを始めます"
+	msg["1007"] = "ありがとうございました！ゲームを終了します"
 
 	msg["2001"] = "残念！もっと小さい数字です。もう一度トライしてみてください。"
 	msg["2002"] = "残念！もっと大きい数字です。もう一度トライしてみてください。"
@@ -135,24 +142,21 @@ func checkAnswer(answer, userAnswer, answerCount int) AnswerResult {
 * 再スタート
  */
 func isRestart() bool {
-	fmt.Println("もう一度ゲームをしますか？")
-	fmt.Println("y:もう一度する, n:終わる")
+	msg := promptMessage()
+	fmt.Println(msg["1004"])
+	fmt.Println(msg["1005"])
+
 	scanner := bufio.NewScanner(os.Stdin)
 	if !scanner.Scan() {
 	}
 
-	text := strings.TrimSpace(scanner.Text())
-	fmt.Println(text)
+	reply := strings.TrimSpace(scanner.Text())
 
-	if text == "y" {
-		fmt.Println("もう一度開始")
+	if reply == "y" {
+		fmt.Println(msg["1006"])
 		return true
 	}
 
-	fmt.Println("終了します")
+	fmt.Println(msg["1007"])
 	return false
-}
-
-func restart() {
-
 }
