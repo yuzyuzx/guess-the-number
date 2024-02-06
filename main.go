@@ -12,9 +12,17 @@ import (
 )
 
 type AnswerResult struct {
-  NumberResult int
+  NumberResult numberResult
   Message string
 }
+
+type numberResult int
+
+const (
+  isLess numberResult= 1
+  isGreater numberResult = 2
+  isCorrect numberResult = 3
+)
 
 func main() {
 	printGameStartPrompt()
@@ -87,13 +95,13 @@ func checkAnswer(answer, userAnswer, answerCount int) AnswerResult {
 
 	switch {
 	case answer < userAnswer:
-    result.NumberResult = 1;
+    result.NumberResult = isLess;
     result.Message = "残念！もっと小さい数字です。もう一度トライしてみてください。"
 	case userAnswer < answer:
-    result.NumberResult = 2;
+    result.NumberResult = isGreater;
     result.Message = "残念！もっと大きい数字です。もう一度トライしてみてください。"
 	default:
-    result.NumberResult= 3;
+    result.NumberResult= isCorrect;
     result.Message = fmt.Sprintf(
       "おめでとうございます！%d回目で正解しました。\n",
       answerCount,
