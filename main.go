@@ -24,10 +24,26 @@ const (
 	isCorrect answerResultType = 3
 )
 
+type Counter struct {
+	count int
+}
+
+func InitCountToZero() *Counter {
+	return &Counter{}
+}
+
+func (c *Counter) Increment() {
+	c.count += 1
+}
+
+func (c Counter) Get() int {
+	return c.count
+}
+
 func main() {
 	printGameStartPrompt()
 	answer := generateAnswer()
-	answerCount := 0
+	userInputCount := InitCountToZero()
 
 	for {
 
@@ -37,13 +53,13 @@ func main() {
 			continue
 		}
 
-		answerCount += 1
+		userInputCount.Increment()
 
-		result := checkAnswer(answer, userAnswer, answerCount)
+		result := checkAnswer(answer, userAnswer, userInputCount.Get())
 		fmt.Println(result.Message)
 		if result.NumberResult == isCorrect {
 			if isRestart() {
-				answerCount = 0
+				userInputCount = InitCountToZero()
 				answer = generateAnswer()
 			} else {
 				break
