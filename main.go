@@ -24,15 +24,15 @@ const (
 	isCorrect answerResultType = 3
 )
 
-type Game struct {}
+type Game struct{}
 
 func (g Game) Start() {
 	fmt.Printf("%s\n%s\n\n%s\n", msg.Print("1001"), msg.Print("1002"), msg.Print("1003"))
 }
 
 func (g Game) ContinueQuestion() {
-        fmt.Println(msg.Print("1004"))
-        fmt.Println(msg.Print("1005"))
+	fmt.Println(msg.Print("1004"))
+	fmt.Println(msg.Print("1005"))
 }
 
 func (g Game) isRestart() bool {
@@ -49,7 +49,7 @@ func (g Game) isRestart() bool {
 	return false
 }
 
-type Message struct {}
+type Message struct{}
 
 func (m Message) Print(number string) string {
 	msg := map[string]string{}
@@ -69,7 +69,7 @@ func (m Message) Print(number string) string {
 	msg["9001"] = "読み込みに失敗しました(T_T)\nもう一度お試しください"
 	msg["9002"] = "入力が正しくありません(T_T)\n数字を入力してください"
 
-  return msg[number]
+	return msg[number]
 }
 
 type AnswerCount struct {
@@ -89,17 +89,17 @@ func (c AnswerCount) Get() int {
 }
 
 var (
-  msg Message
-  game Game
+	msg  Message
+	game Game
 )
 
 func init() {
-  msg = Message{}
-  game = Game{}
+	msg = Message{}
+	game = Game{}
 }
 
 func main() {
-  game.Start()
+	game.Start()
 	answer := generateAnswer()
 	userInputCount := ResetCountToZero()
 
@@ -116,13 +116,13 @@ func main() {
 		result := checkAnswer(answer, userAnswer, userInputCount.Get())
 		fmt.Println(result.Message)
 		if result.NumberResult == isCorrect {
-      game.ContinueQuestion()
+			game.ContinueQuestion()
 			if game.isRestart() {
-        fmt.Println(msg.Print("1006"))
+				fmt.Println(msg.Print("1006"))
 				userInputCount = ResetCountToZero()
 				answer = generateAnswer()
 			} else {
-        fmt.Println(msg.Print("1007"))
+				fmt.Println(msg.Print("1007"))
 				break
 			}
 		}
@@ -163,16 +163,16 @@ func readUserAnswer() (int, error) {
 * 答え合わせ
  */
 func checkAnswer(answer, userAnswer, answerCount int) AnswerResult {
-  var number answerResultType
-  var message string
+	var number answerResultType
+	var message string
 
 	switch {
 	case answer < userAnswer:
-    number = isLess
-    message = msg.Print("2001")
+		number = isLess
+		message = msg.Print("2001")
 	case userAnswer < answer:
-    number = isGreater
-    message = msg.Print("2002")
+		number = isGreater
+		message = msg.Print("2002")
 	default:
 		number = isCorrect
 		message = fmt.Sprintf(
@@ -183,10 +183,9 @@ func checkAnswer(answer, userAnswer, answerCount int) AnswerResult {
 	}
 
 	result := AnswerResult{
-    NumberResult: number,
-    Message: message,
-  }
+		NumberResult: number,
+		Message:      message,
+	}
 
 	return result
 }
-
